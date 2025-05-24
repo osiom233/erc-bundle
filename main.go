@@ -10,6 +10,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 var (
@@ -124,6 +125,7 @@ func main() {
 	err = filepath.Walk(inputDir, func(path string, info os.FileInfo, err error) error {
 		if !info.IsDir() {
 			relPath, _ := filepath.Rel(inputDir, path)
+			relPath = strings.ReplaceAll(relPath, string(os.PathSeparator), "/")
 			data, entry, hashBase64, err := buildFileEntry(path, relPath, offset)
 			if err != nil {
 				return err
